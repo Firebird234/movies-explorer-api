@@ -4,61 +4,37 @@ const { ValError } = require('../../errors/ValError');
 const { ServerError } = require('../../errors/ServerError');
 
 module.exports.postMovie = (req, res, next) => {
-  const {
-    country,
-    director,
-    duration,
-    year,
-    image,
-    trailerLink,
-    thumbNail,
-    movieId,
-    nameRu,
-    nameEn,
-  } = req.body;
+  const id = req.user;
 
-  const owner = req.user;
-  console.log('HEHE', owner);
-  Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    image,
-    trailerLink,
-    thumbNail,
-    owner,
-    movieId,
-    nameRu,
-    nameEn,
-  })
+  Movie.create({ ...req.body, owner: id })
     .then(
       ({
         country,
         director,
         duration,
         year,
+        description,
         image,
-        trailerLink,
-        thumbNail,
-        owner,
+        trailer,
+        nameRU,
+        nameEN,
+        thumbnail,
         movieId,
-        nameRu,
-        nameEn,
-      }) =>
-        res.send({
-          country,
-          director,
-          duration,
-          year,
-          image,
-          trailerLink,
-          thumbNail,
-          owner,
-          movieId,
-          nameRu,
-          nameEn,
-        }),
+        owner,
+      }) => res.send({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailer,
+        nameRU,
+        nameEN,
+        thumbnail,
+        movieId,
+        owner,
+      }),
     )
     .catch((err) => {
       if (err.name === 'ValidationError') {

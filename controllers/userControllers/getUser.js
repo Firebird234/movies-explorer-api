@@ -9,12 +9,10 @@ module.exports.getUser = (req, res, next) => {
       if (!user) {
         throw new UserNoundError();
       }
-      const { name, about, avatar, _id } = user;
+      const { name, email } = user;
       return res.send({
         name,
-        about,
-        avatar,
-        _id,
+        email,
       });
     })
     .catch((err) => {

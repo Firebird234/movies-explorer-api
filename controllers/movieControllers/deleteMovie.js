@@ -3,12 +3,12 @@ const Movie = require('../../models/movies');
 const { NotFoundIdError } = require('../../errors/NotFoundIdError');
 
 const { NotCardOwnerError } = require('../../errors/NotCardOwnerError');
-const { UserNoundError } = require('../../errors/UserNoundError');
+// const { UserNoundError } = require('../../errors/UserNoundError');
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id)
     .orFail(() => {
-      throw new UserNoundError();
+      throw new NotFoundIdError();
     })
     .then((card) => {
       console.log('found');
@@ -18,7 +18,9 @@ module.exports.deleteMovie = (req, res, next) => {
           if (!user) {
             throw new NotFoundIdError();
           }
-          const { owner, movieId, nameRu, nameEn } = user;
+          const {
+            owner, movieId, nameRu, nameEn,
+          } = user;
 
           return res.send({
             owner,

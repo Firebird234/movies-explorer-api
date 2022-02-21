@@ -18,6 +18,10 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
   image: {
     type: String,
     validate: {
@@ -25,14 +29,14 @@ const cardSchema = new mongoose.Schema({
     },
     required: true,
   },
-  trailerLink: {
+  trailer: {
     type: String,
     validate: {
       validator: (v) => validator.isURL(v),
     },
     required: true,
   },
-  thumbNail: {
+  thumbnail: {
     type: String,
     validate: {
       validator: (v) => validator.isURL(v),

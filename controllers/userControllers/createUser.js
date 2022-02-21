@@ -8,7 +8,7 @@ const { ServerError } = require('../../errors/ServerError');
 const { ValError } = require('../../errors/ValError');
 
 module.exports.createUser = (req, res, next) => {
-  const { name, email, password } = req.body;
+  // const { name, email, password } = req.body;
   console.log(1);
   // if (!validator.isEmail(email)) {
   //   return res.status(400).send({
@@ -16,21 +16,19 @@ module.exports.createUser = (req, res, next) => {
   //   });
   // }
   return bcrypt
-    .hash(password, 10)
-    .then((password) => {
+    .hash(req.body.password, 10)
+    .then((pass) => {
       console.log(2);
       return User.create({
-        name,
-        email,
-        password,
+        ...req.body,
+        password: pass,
       });
     })
-    .then(({ name, email, password }) => {
+    .then(({ name, email }) => {
       console.log(3);
       res.send({
         name,
         email,
-        password,
       });
     })
     .catch((err) => {
