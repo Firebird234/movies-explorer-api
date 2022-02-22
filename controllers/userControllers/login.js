@@ -1,10 +1,14 @@
-const { JWT_SECRET = 'test' } = process.env;
+const { JWT_SECRET, NODE_ENV } = process.env;
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../../models/users');
 
 const { IncorrectTokenError } = require('../../errors/incorrectTokenError');
+const { secretKeyDev } = require('../../const/config');
+const { incorrectTokenMessage } = require('../../const/constants');
+
+const jwtKey = NODE_ENV === 'production' ? JWT_SECRET : secretKeyDev;
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
@@ -16,11 +20,11 @@ module.exports.login = (req, res, next) => {
       if (!data) {
         return Promise.reject(new Error('У кого то кривые ручки-почта или пароль не правильные'));
       }
-      console.log(data);
       req.userId = data._id;
       return bcrypt.compare(password, data.password);
     })
     .then((passed) => {
+      console.log(jwtKey);
       if (!passed) {
         return Promise.reject(new Error('У кого то кривые ручки-почта или пароль не правильные'));
       }
@@ -30,7 +34,7 @@ module.exports.login = (req, res, next) => {
         {
           id,
         },
-        JWT_SECRET,
+        jwtKey,
         {
           expiresIn: 3600 * 24 * 7,
         },
@@ -42,7 +46,8 @@ module.exports.login = (req, res, next) => {
       });
     })
     .catch(() => {
-      throw new IncorrectTokenError();
+      console.log(jwtKey);
+      throw new IncorrectTokenError(incorrectTokenMessage);
     })
     .catch(next);
 };

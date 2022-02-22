@@ -1,6 +1,7 @@
 const Movie = require('../../models/movies');
 
 const { ServerError } = require('../../errors/ServerError');
+const { ServerMessage } = require('../../const/constants');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find()
@@ -17,7 +18,7 @@ module.exports.getMovies = (req, res, next) => {
       });
     })
     .catch(() => {
-      throw new ServerError();
+      throw new ServerError(ServerMessage);
     })
     .catch(next);
 };

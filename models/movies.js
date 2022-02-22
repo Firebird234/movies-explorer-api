@@ -29,7 +29,7 @@ const cardSchema = new mongoose.Schema({
     },
     required: true,
   },
-  trailer: {
+  trailerLink: {
     type: String,
     validate: {
       validator: (v) => validator.isURL(v),
@@ -49,15 +49,14 @@ const cardSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
+    type: Number,
     required: true,
   },
-  nameRu: {
+  nameRU: {
     type: String,
     required: true,
   },
-  nameEn: {
+  nameEN: {
     type: String,
     required: true,
   },

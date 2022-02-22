@@ -32,7 +32,7 @@ routes.post(
 
 routes.use(auth);
 
-routes.use('/', movieRouter);
-routes.use('/', userRouter);
+routes.use(movieRouter);
+routes.use(userRouter);
 
 module.exports = routes;

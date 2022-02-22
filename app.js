@@ -11,9 +11,13 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { cors } = require('./middlewares/cors');
 const routes = require('./routes/index');
 const { errHandler } = require('./middlewares/errHandler');
+const { mongoUrlProd } = require('./const/config');
+const { noSuchRouteMessage } = require('./const/constants');
 require('dotenv').config();
 
-mongoose.connect('mongodb://localhost:27017/mestodb');
+const { mongoUrlDev, NODE_ENV } = process.env;
+const mongoUrl = NODE_ENV === 'production' ? mongoUrlProd : mongoUrlDev;
+mongoose.connect(mongoUrl);
 
 const app = express();
 app.use(helmet());
@@ -30,11 +34,11 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use('/', routes);
+app.use(routes);
 
 app.use((req, res, next) => {
   // res.status(404).send({ message: 'Чет ниработает ничо, ну соре тогда' });
-  next(new NoSuchRouteError());
+  next(new NoSuchRouteError(noSuchRouteMessage));
 });
 
 app.use(errorLogger);

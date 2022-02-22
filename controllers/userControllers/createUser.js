@@ -6,6 +6,7 @@ const { UserCreatedError } = require('../../errors/userCreatedError');
 
 const { ServerError } = require('../../errors/ServerError');
 const { ValError } = require('../../errors/ValError');
+const { userCreatedMessage, ServerMessage, valMessage } = require('../../const/constants');
 
 module.exports.createUser = (req, res, next) => {
   // const { name, email, password } = req.body;
@@ -35,14 +36,14 @@ module.exports.createUser = (req, res, next) => {
       console.log(err);
       if (err.name === 'ValidationError') {
         console.log(4);
-        throw new ValError();
+        throw new ValError(valMessage);
       }
       if (err.code === 11000) {
         console.log(5);
-        throw new UserCreatedError();
+        throw new UserCreatedError(userCreatedMessage);
       }
       console.log(6);
-      throw new ServerError();
+      throw new ServerError(ServerMessage);
     })
     .catch(next);
 };

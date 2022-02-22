@@ -1,7 +1,7 @@
 class UserCreatedError extends Error {
   constructor(message) {
     super(message);
-    this.message = 'Такой мэйл уже зарегистрирован';
+    this.message = message;
     this.statusCode = 409;
   }
 }
