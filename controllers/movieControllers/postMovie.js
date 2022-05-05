@@ -22,6 +22,7 @@ module.exports.postMovie = (req, res, next) => {
         thumbnail,
         movieId,
         owner,
+        _id,
       }) =>
         res.send({
           country,
@@ -36,12 +37,15 @@ module.exports.postMovie = (req, res, next) => {
           thumbnail,
           movieId,
           owner,
+          _id,
         }),
     )
     .catch((err) => {
       if (err.name === 'ValidationError') {
+        console.log(err);
         throw new ValError(valMessage);
       }
+      console.log(err);
       throw new ServerError(ServerMessage);
     })
     .catch(next);

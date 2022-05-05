@@ -35,14 +35,14 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       console.log(err);
       if (err.name === 'ValidationError') {
-        console.log(4);
+        console.log(err);
         throw new ValError(valMessage);
       }
       if (err.code === 11000) {
-        console.log(5);
+        console.log(err);
         throw new UserCreatedError(userCreatedMessage);
       }
-      console.log(6);
+      console.log(err);
       throw new ServerError(ServerMessage);
     })
     .catch(next);

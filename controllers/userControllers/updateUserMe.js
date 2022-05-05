@@ -20,9 +20,9 @@ module.exports.updateUserMe = (req, res, next) => {
 
   return User.findOne({ email: req.body.email }).then((existingUser) => {
     console.log('bobo', existingUser);
-    if (existingUser) {
-      return next(new UserAlreadyExistsError(userAlreadyExistsMessage));
-    }
+    // if (existingUser) {
+    //   return next(new UserAlreadyExistsError(userAlreadyExistsMessage));
+    // }
     return User.findByIdAndUpdate(me, req.body, {
       new: true, // обработчик then получит на вход обновлённую запись
       runValidators: true, // данные будут валидированы перед изменением
