@@ -4,7 +4,7 @@ const { ServerError } = require('../../errors/ServerError');
 const { ServerMessage } = require('../../const/constants');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find()
+  Movie.find({ owner: req.user })
     .then((user) => {
       console.log(req.user, user.owner, user);
 
